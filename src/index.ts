@@ -9,7 +9,7 @@ const server = http.createServer(async (req, res) => {
     res.setHeader("content-type", "text/html;charset=utf8");
     const data = await readFile(req.url + ".html");
     res.end(data);
-    
+
     return;
   }
 
@@ -127,20 +127,17 @@ inStream.pipe(process.stdout); */
   }
 
   if (req.url === "/upload") {
-    
     const dataWriteable = new Writable({
-      write(chuck:Buffer) {
-        console.log('写入');
+      write(chuck: Buffer) {
+        console.log("写入");
         console.log(chuck.toString());
       },
     });
     req.pipe(dataWriteable);
-    console.log("传输结束");
+    dataWriteable.end(() => {
+      console.log("传输结束");
+    });
     res.end("ok");
-      console.log(req.complete);
-    /* dataWriteable.end(() => {
-      
-    }); */
     return;
   }
 });
